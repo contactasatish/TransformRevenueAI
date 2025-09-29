@@ -4,23 +4,27 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Primary Meta Tags -->
-    <title>Transform Revenue AI - Purpose-Built AI Agents for Business</title>
-    <meta name="title" content="Transform Revenue AI - Purpose-Built AI Agents for Business">
-    <meta name="description" content="Transform your business with purpose-built AI agents and custom GPT solutions. We build intelligent systems that drive revenue, not just automation.">
-    <meta name="keywords" content="Generative AI, AI Agents, Custom GPT, AI Solutions, IT Consulting, Revenue Growth, Business Automation, AI Strategy, Enterprise AI">
+    <!-- 
+      SEO META TAGS
+      These are placeholders. The actual content is dynamically set by React 
+      from the `site.config.ts` file for better maintainability.
+    -->
+    <title>Transform Revenue AI</title>
+    <meta name="title" content="Transform Revenue AI">
+    <meta name="description" content="Transform your business with purpose-built AI agents and custom GPT solutions.">
+    <meta name="keywords" content="Generative AI, AI Agents, Custom GPT, AI Solutions">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://transformrevenueai.com/">
-    <meta property="og:title" content="Transform Revenue AI - Purpose-Built AI Agents for Business">
-    <meta property="og:description" content="We build intelligent systems that drive revenue, not just automation. Explore our AI Agent Factory, Custom GPT Studio, and more.">
+    <meta property="og:url" content="">
+    <meta property="og:title" content="Transform Revenue AI">
+    <meta property="og:description" content="">
     
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://transformrevenueai.com/">
-    <meta property="twitter:title" content="Transform Revenue AI - Purpose-Built AI Agents for Business">
-    <meta property="twitter:description" content="We build intelligent systems that drive revenue, not just automation. Explore our AI Agent Factory, Custom GPT Studio, and more.">
+    <meta property="twitter:url" content="">
+    <meta property="twitter:title" content="Transform Revenue AI">
+    <meta property="twitter:description" content="">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://api.fontshare.com/v2/css?f[]=satoshi@900,700,500,400&display=swap" rel="stylesheet">
@@ -39,19 +43,22 @@
         @keyframes fade-in-up {
             from {
                 opacity: 0;
-                transform: translateY(20px) scale(0.98);
+                transform: translateY(20px);
             }
             to {
                 opacity: 1;
-                transform: translateY(0) scale(1);
+                transform: translateY(0);
             }
         }
         .scroll-reveal {
             opacity: 0;
-            transition: opacity 0.7s cubic-bezier(0.645, 0.045, 0.355, 1), transform 0.7s cubic-bezier(0.645, 0.045, 0.355, 1);
+            transform: translateY(20px);
+            transition: opacity 0.8s cubic-bezier(0.645, 0.045, 0.355, 1), transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
+            transition-delay: 0.2s;
         }
         .scroll-reveal.visible {
-            animation: fade-in-up 0.8s cubic-bezier(0.645, 0.045, 0.355, 1) forwards;
+            opacity: 1;
+            transform: translateY(0);
         }
         @keyframes node-pulse {
             0%, 100% {

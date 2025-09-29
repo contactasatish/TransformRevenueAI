@@ -1,53 +1,48 @@
 import React, { useState, useEffect } from 'react';
-
-interface Testimonial {
-  author: string;
-  role: string;
-  company: string;
-  quote: string;
-}
-
-const testimonialsData: Testimonial[] = [
-  {
-    author: 'Sarah Johnson',
-    role: 'CTO',
-    company: 'Innovate Corp',
-    quote: 'Transform Revenue AI delivered an AI agent that automated 80% of our manual data entry, saving us thousands of hours. Their team didn\'t just build a tool; they engineered a core part of our new operational backbone.',
-  },
-  {
-    author: 'Michael Chen',
-    role: 'VP of Operations',
-    company: 'Quantum Logistics',
-    quote: 'The custom GPT they built for us understands our industry-specific jargon perfectly. It has reduced our internal training time for new hires by 60% and acts as a 24/7 expert system for our team.',
-  },
-  {
-    author: 'Emily Rodriguez',
-    role: 'Head of Product',
-    company: 'NextGen Fintech',
-    quote: 'We were struggling with scaling our customer support. The smart workflow engine they designed handles 70% of inbound queries, allowing our human agents to focus on high-value, complex cases. A total game-changer for our CX.',
-  },
-  {
-    author: 'David Lee',
-    role: 'Chief Revenue Officer',
-    company: 'Apex Retail Group',
-    quote: 'The Revenue Intelligence Hub is phenomenal. It surfaced a multi-million dollar upsell opportunity in our existing customer base within the first month. We\'re now making proactive, data-driven decisions instead of reactive ones.',
-  },
-  {
-    author: 'Dr. Aisha Khan',
-    role: 'Chief Medical Information Officer',
-    company: 'Unity Health Systems',
-    quote: 'Their HIPAA-compliant AI solution for clinical documentation has been revolutionary. It reduced physician burnout and improved data accuracy, allowing us to focus more on patient outcomes. A true partner in healthcare innovation.',
-  },
-  {
-    author: 'Ben Carter',
-    role: 'Director of Financial Planning',
-    company: 'Titan Financial',
-    quote: 'We tasked them with automating our complex quarterly reporting process. The smart workflow engine they built is flawless, cutting down a week of manual work to just a few hours and eliminating human error.',
-  },
-];
+import { useTranslations } from '../hooks/useTranslations';
 
 const Testimonials: React.FC = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
+    const t = useTranslations();
+
+    const testimonialsData = [
+        {
+          author: t.testimonial_1_author,
+          role: t.testimonial_1_role,
+          company: t.testimonial_1_company,
+          quote: t.testimonial_1_quote,
+        },
+        {
+          author: t.testimonial_2_author,
+          role: t.testimonial_2_role,
+          company: t.testimonial_2_company,
+          quote: t.testimonial_2_quote,
+        },
+        {
+          author: t.testimonial_3_author,
+          role: t.testimonial_3_role,
+          company: t.testimonial_3_company,
+          quote: t.testimonial_3_quote,
+        },
+        {
+          author: t.testimonial_4_author,
+          role: t.testimonial_4_role,
+          company: t.testimonial_4_company,
+          quote: t.testimonial_4_quote,
+        },
+        {
+          author: t.testimonial_5_author,
+          role: t.testimonial_5_role,
+          company: t.testimonial_5_company,
+          quote: t.testimonial_5_quote,
+        },
+        {
+          author: t.testimonial_6_author,
+          role: t.testimonial_6_role,
+          company: t.testimonial_6_company,
+          quote: t.testimonial_6_quote,
+        },
+      ];
 
     const nextTestimonial = () => {
         setCurrentIndex((prevIndex) => (prevIndex + 1) % testimonialsData.length);
@@ -64,23 +59,23 @@ const Testimonials: React.FC = () => {
 
         return () => clearInterval(interval); // Cleanup interval on component unmount
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [currentIndex]);
+    }, [currentIndex, t]); // Add t to dependency array to re-trigger on language change
 
 
     const currentTestimonial = testimonialsData[currentIndex];
 
     return (
-        <section id="testimonials" className="py-20 lg:py-28 bg-[#10183b]">
+        <section id="testimonials" className="py-20 lg:py-28">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-center max-w-3xl mx-auto scroll-reveal">
-                    <h2 className="text-3xl lg:text-4xl font-bold text-white font-['Satoshi']">Trusted by Industry Leaders</h2>
+                <div className="text-center max-w-3xl mx-auto animate-on-scroll">
+                    <h2 className="text-3xl lg:text-4xl font-bold text-white font-['Satoshi']">{t.testimonials_title}</h2>
                     <p className="mt-4 text-lg text-gray-400">
-                        Our clients are our best advocates. Here's what they have to say about our partnership.
+                        {t.testimonials_subtitle}
                     </p>
                 </div>
 
                 <div className="mt-16 max-w-4xl mx-auto relative">
-                    <div className="bg-gradient-to-br from-[#1a233a] to-[#0A0F2C] p-8 md:p-12 rounded-2xl border border-gray-700/50 shadow-lg shadow-[#00E5FF]/5 transition-all duration-300 scroll-reveal">
+                    <div className="bg-gradient-to-br from-[#1a233a] to-[#0A0F2C] p-8 md:p-12 rounded-2xl border border-gray-700/50 shadow-lg shadow-[#00E5FF]/5 transition-all duration-300 animate-on-scroll">
                         <div className="relative h-48 md:h-36 flex items-center justify-center">
                           {testimonialsData.map((testimonial, index) => (
                               <div

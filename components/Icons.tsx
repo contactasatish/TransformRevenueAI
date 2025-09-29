@@ -59,6 +59,25 @@ export const TransformRevenueAILogo: React.FC<IconProps> = ({ className }) => (
     </svg>
 );
 
+export const GlobeIcon: React.FC<IconProps> = ({ className }) => (
+    <svg className={className} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+        <defs>
+            <linearGradient id="oceanGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="var(--quantum-blue)" />
+                <stop offset="100%" stopColor="#12A8CD" />
+            </linearGradient>
+        </defs>
+        {/* The main ocean circle, filled with the site's signature gradient */}
+        <circle cx="12" cy="12" r="10" fill="url(#oceanGradient)" />
+        {/* Abstract, stylized landmasses, now in a vibrant green */}
+        <path 
+            fill="#4ade80"
+            fillOpacity="0.8"
+            d="M12.5,3.5 C15,4 16.5,6.5 16.5,8.5 C16.5,10 15,11 14,11.5 C13.5,13 14,15 15.5,16 C16.5,16.5 17,17.5 17,18.5 C16.5,20 14,21 12,20.5 C10,21 7.5,20 7,18.5 C6.5,17.5 7,16.5 8,16 C9.5,15 10.5,13 10,11.5 C9,11 7.5,10 7.5,8.5 C7.5,6.5 9,4 11.5,3.5 C11.8,3.4 12.2,3.4 12.5,3.5 Z M8.5,7 C8,7.3 7.8,8.1 8.1,8.6 C8.6,9.4 9.5,9.8 10.5,9.5 C10.9,9.4 11.2,8.9 11.1,8.5 C10.9,8 10.4,7.8 10,7.8 C9.5,7.9 9,7.6 8.5,7 Z M15.5,13 C15.1,13 14.8,13.4 14.9,13.8 C15.1,14.5 14.8,15.2 14.2,15.6 C13.8,15.9 13.9,16.5 14.3,16.8 C14.7,17.1 15.3,17 15.6,16.6 C16.6,15.8 17,14.5 16.5,13.5 C16.3,13.2 15.9,13 15.5,13 Z"
+        />
+    </svg>
+);
+
 export const BrainIcon: React.FC<IconProps> = ({ className }) => (
   <svg className={className} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 4.75h.008v.008H12v-.008z" />

@@ -12,8 +12,61 @@ const AnimatedGridBackground: React.FC = () => {
 
         let animationFrameId: number;
         let particles: Particle[] = [];
+        let gradientBlobs: GradientBlob[] = [];
         let particleCount = 70;
         const maxDistance = 120;
+
+        const mouse = {
+            x: -1000,
+            y: -1000,
+            radius: 150,
+        };
+
+        class GradientBlob {
+            x: number;
+            y: number;
+            vx: number;
+            vy: number;
+            radius: number;
+            color: string;
+
+            constructor(canvasWidth: number, canvasHeight: number) {
+                this.x = Math.random() * canvasWidth;
+                this.y = Math.random() * canvasHeight;
+                this.vx = (Math.random() - 0.5) * 0.2;
+                this.vy = (Math.random() - 0.5) * 0.2;
+                this.radius = Math.random() * 300 + 300; // Large radius
+                const colors = [
+                    'rgba(108, 2, 184, 0.15)',
+                    'rgba(0, 115, 255, 0.1)',
+                    'rgba(0, 229, 255, 0.08)'
+                ];
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+            }
+
+            update(canvasWidth: number, canvasHeight: number) {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x - this.radius < 0 || this.x + this.radius > canvasWidth) this.vx *= -1;
+                if (this.y - this.radius < 0 || this.y + this.radius > canvasHeight) this.vy *= -1;
+            }
+
+            draw() {
+                if (!ctx) return;
+                ctx.save();
+                ctx.globalCompositeOperation = 'lighter';
+                const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.radius);
+                gradient.addColorStop(0, this.color);
+                gradient.addColorStop(1, 'rgba(10, 15, 44, 0)');
+                ctx.fillStyle = gradient;
+                ctx.filter = 'blur(100px)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
 
         class Particle {
             x: number;
@@ -21,16 +74,39 @@ const AnimatedGridBackground: React.FC = () => {
             vx: number;
             vy: number;
             radius: number;
+            baseX: number;
+            baseY: number;
 
             constructor(x: number, y: number, vx: number, vy: number) {
                 this.x = x;
                 this.y = y;
+                this.baseX = x;
+                this.baseY = y;
                 this.vx = vx;
                 this.vy = vy;
                 this.radius = Math.random() * 1.5 + 0.5;
             }
 
             update() {
+                // Mouse interaction
+                const dx = this.x - mouse.x;
+                const dy = this.y - mouse.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance < mouse.radius) {
+                    const forceDirectionX = dx / distance;
+                    const forceDirectionY = dy / distance;
+                    const force = (mouse.radius - distance) / mouse.radius;
+                    const directionX = forceDirectionX * force * 0.5;
+                    const directionY = forceDirectionY * force * 0.5;
+                    this.vx += directionX;
+                    this.vy += directionY;
+                }
+                
+                // Damping
+                this.vx *= 0.98;
+                this.vy *= 0.98;
+
                 this.x += this.vx;
                 this.y += this.vy;
 
@@ -42,7 +118,7 @@ const AnimatedGridBackground: React.FC = () => {
                 if (!ctx) return;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(0, 229, 255, 0.5)';
+                ctx.fillStyle = 'rgba(0, 229, 255, 0.8)';
                 ctx.fill();
             }
         }
@@ -52,6 +128,7 @@ const AnimatedGridBackground: React.FC = () => {
             canvas.width = canvas.parentElement.offsetWidth;
             canvas.height = canvas.parentElement.offsetHeight;
             particles = [];
+            gradientBlobs = [];
 
             if (canvas.width < 768) {
                 particleCount = 40;
@@ -66,6 +143,10 @@ const AnimatedGridBackground: React.FC = () => {
                 const vy = (Math.random() - 0.5) * 0.3;
                 particles.push(new Particle(x, y, vx, vy));
             }
+            
+            for (let i = 0; i < 3; i++) {
+                gradientBlobs.push(new GradientBlob(canvas.width, canvas.height));
+            }
         };
         
         const connect = () => {
@@ -78,7 +159,7 @@ const AnimatedGridBackground: React.FC = () => {
                     );
 
                     if (distance < maxDistance) {
-                        ctx.strokeStyle = `rgba(0, 229, 255, ${1 - distance / maxDistance})`;
+                        ctx.strokeStyle = `rgba(0, 229, 255, ${0.8 - distance / maxDistance})`;
                         ctx.lineWidth = 0.5;
                         ctx.beginPath();
                         ctx.moveTo(particles[a].x, particles[a].y);
@@ -89,16 +170,37 @@ const AnimatedGridBackground: React.FC = () => {
             }
         };
 
-
         const animate = () => {
             if (!ctx) return;
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Create trails by not clearing fully
+            ctx.fillStyle = 'rgba(10, 15, 44, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw shifting gradients
+            gradientBlobs.forEach(blob => {
+                blob.update(canvas.width, canvas.height);
+                blob.draw();
+            });
+
+            // Draw particles and connections
             particles.forEach(p => {
                 p.update();
                 p.draw();
             });
             connect();
+            
             animationFrameId = requestAnimationFrame(animate);
+        };
+
+        const handleMouseMove = (event: MouseEvent) => {
+            mouse.x = event.clientX;
+            mouse.y = event.clientY;
+        };
+        
+        const handleMouseOut = () => {
+            mouse.x = -1000;
+            mouse.y = -1000;
         };
 
         init();
@@ -109,10 +211,14 @@ const AnimatedGridBackground: React.FC = () => {
         };
 
         window.addEventListener('resize', handleResize);
+        window.addEventListener('mousemove', handleMouseMove);
+        window.addEventListener('mouseout', handleMouseOut);
         
         return () => {
             cancelAnimationFrame(animationFrameId);
             window.removeEventListener('resize', handleResize);
+            window.removeEventListener('mousemove', handleMouseMove);
+            window.removeEventListener('mouseout', handleMouseOut);
         };
     }, []);
 
