@@ -1,8 +1,29 @@
 import React, { useRef, useEffect } from 'react';
 
-const AnimatedGridBackground: React.FC = () => {
+// New interface for props
+interface AnimatedGridBackgroundProps {
+  particleColor?: string;
+  lineColorRGB?: string; // e.g., '0, 229, 255' for rgba
+  blobColors?: string[];
+  backgroundColor?: string;
+  particleDensity?: 'sparse' | 'medium' | 'dense' | number;
+}
+
+const AnimatedGridBackground: React.FC<AnimatedGridBackgroundProps> = ({
+    // Default values to maintain original appearance
+    particleColor = 'rgba(0, 229, 255, 0.8)',
+    lineColorRGB = '0, 229, 255',
+    blobColors = [
+        'rgba(108, 2, 184, 0.15)',
+        'rgba(0, 115, 255, 0.1)',
+        'rgba(0, 229, 255, 0.08)'
+    ],
+    backgroundColor = 'rgba(10, 15, 44, 0.1)',
+    particleDensity = 'medium',
+}) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
+    // useEffect will re-run if props change
     useEffect(() => {
         const canvas = canvasRef.current;
         if (!canvas) return;
@@ -13,7 +34,6 @@ const AnimatedGridBackground: React.FC = () => {
         let animationFrameId: number;
         let particles: Particle[] = [];
         let gradientBlobs: GradientBlob[] = [];
-        let particleCount = 70;
         const maxDistance = 120;
 
         const mouse = {
@@ -35,13 +55,9 @@ const AnimatedGridBackground: React.FC = () => {
                 this.y = Math.random() * canvasHeight;
                 this.vx = (Math.random() - 0.5) * 0.2;
                 this.vy = (Math.random() - 0.5) * 0.2;
-                this.radius = Math.random() * 300 + 300; // Large radius
-                const colors = [
-                    'rgba(108, 2, 184, 0.15)',
-                    'rgba(0, 115, 255, 0.1)',
-                    'rgba(0, 229, 255, 0.08)'
-                ];
-                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.radius = Math.random() * 300 + 300;
+                // Use blobColors from component props
+                this.color = blobColors[Math.floor(Math.random() * blobColors.length)];
             }
 
             update(canvasWidth: number, canvasHeight: number) {
@@ -118,7 +134,8 @@ const AnimatedGridBackground: React.FC = () => {
                 if (!ctx) return;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(0, 229, 255, 0.8)';
+                // Use particleColor from component props
+                ctx.fillStyle = particleColor;
                 ctx.fill();
             }
         }
@@ -129,12 +146,27 @@ const AnimatedGridBackground: React.FC = () => {
             canvas.height = canvas.parentElement.offsetHeight;
             particles = [];
             gradientBlobs = [];
+            
+            let particleCount: number;
 
-            if (canvas.width < 768) {
-                particleCount = 40;
+            if (typeof particleDensity === 'number') {
+                particleCount = particleDensity;
             } else {
-                particleCount = 70;
+                const isMobile = canvas.width < 768;
+                switch (particleDensity) {
+                    case 'sparse':
+                        particleCount = isMobile ? 20 : 40;
+                        break;
+                    case 'dense':
+                        particleCount = isMobile ? 60 : 120;
+                        break;
+                    case 'medium':
+                    default:
+                        particleCount = isMobile ? 40 : 70;
+                        break;
+                }
             }
+
 
             for (let i = 0; i < particleCount; i++) {
                 const x = Math.random() * canvas.width;
@@ -159,7 +191,8 @@ const AnimatedGridBackground: React.FC = () => {
                     );
 
                     if (distance < maxDistance) {
-                        ctx.strokeStyle = `rgba(0, 229, 255, ${0.8 - distance / maxDistance})`;
+                        // Use lineColorRGB from component props
+                        ctx.strokeStyle = `rgba(${lineColorRGB}, ${0.8 - distance / maxDistance})`;
                         ctx.lineWidth = 0.5;
                         ctx.beginPath();
                         ctx.moveTo(particles[a].x, particles[a].y);
@@ -173,8 +206,8 @@ const AnimatedGridBackground: React.FC = () => {
         const animate = () => {
             if (!ctx) return;
             
-            // Create trails by not clearing fully
-            ctx.fillStyle = 'rgba(10, 15, 44, 0.1)';
+            // Use backgroundColor from component props to create trails
+            ctx.fillStyle = backgroundColor;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
             // Draw shifting gradients
@@ -220,7 +253,7 @@ const AnimatedGridBackground: React.FC = () => {
             window.removeEventListener('mousemove', handleMouseMove);
             window.removeEventListener('mouseout', handleMouseOut);
         };
-    }, []);
+    }, [particleColor, lineColorRGB, blobColors, backgroundColor, particleDensity]);
 
     return (
         <canvas 
