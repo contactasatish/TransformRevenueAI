@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- 
+      SEO META TAGS
+      These are placeholders. The actual content is dynamically set by React 
+      from the `site.config.ts` file for better maintainability.
+    -->
+    <title>Transform Revenue AI</title>
+    <meta name="title" content="Transform Revenue AI">
+    <meta name="description" content="Transform your business with purpose-built AI agents and custom GPT solutions.">
+    <meta name="keywords" content="Generative AI, AI Agents, Custom GPT, AI Solutions">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="">
+    <meta property="og:title" content="Transform Revenue AI">
+    <meta property="og:description" content="">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="">
+    <meta property="twitter:title" content="Transform Revenue AI">
+    <meta property="twitter:description" content="">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@900,700,500,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cosmic-navy: #0A0F2C;
+            --quantum-blue: #00E5FF;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--cosmic-navy);
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Satoshi', sans-serif;
+        }
+        @keyframes fade-in-up {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s cubic-bezier(0.645, 0.045, 0.355, 1), transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
+            transition-delay: 0.2s;
+        }
+        .scroll-reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        @keyframes node-pulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(0, 229, 255, 0.4);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 0 20px 10px rgba(0, 229, 255, 0);
+            }
+        }
+        .process-node.visible {
+            animation: node-pulse 1.5s cubic-bezier(0.645, 0.045, 0.355, 1) forwards;
+        }
+        @keyframes subtle-glow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .hero-bg-animation::before,
+        .hero-bg-animation::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        /* Slow, small, distant stars (parallax layer 1) */
+        .hero-bg-animation::before {
+            background-image:
+                radial-gradient(1px 1px at 10% 20%, white, transparent),
+                radial-gradient(1px 1px at 80% 30%, white, transparent),
+                radial-gradient(1px 1px at 50% 70%, white, transparent),
+                radial-gradient(1px 1px at 25% 90%, white, transparent),
+                radial-gradient(1px 1px at 70% 85%, white, transparent);
+            background-size: 500px 500px;
+            opacity: 0.5;
+            transform: translateY(var(--parallax-offset-slow, 0px));
+        }
+
+        /* Faster, larger, closer stars (parallax layer 2) */
+        .hero-bg-animation::after {
+            background-image:
+                radial-gradient(2px 2px at 30% 50%, white, transparent),
+                radial-gradient(2px 2px at 90% 60%, white, transparent),
+                radial-gradient(2px 2px at 40% 10%, white, transparent);
+            background-size: 400px 400px;
+            opacity: 0.7;
+            transform: translateY(var(--parallax-offset-fast, 0px));
+        }
+
+        .futuristic-background {
+            background-color: var(--cosmic-navy);
+            background-image:
+                radial-gradient(ellipse at 70% 20%, rgba(108, 2, 184, 0.3) 0%, transparent 40%),
+                radial-gradient(ellipse at 30% 80%, rgba(0, 115, 255, 0.25) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(0, 229, 255, 0.1) 0%, transparent 30%);
+            background-size: 250% 250%;
+            animation: subtle-glow 30s linear infinite alternate;
+        }
+        
+        /* Hero entrance animation */
+        .hero-reveal-container .hero-reveal-child {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s cubic-bezier(0.645, 0.045, 0.355, 1), transform 0.6s cubic-bezier(0.645, 0.045, 0.355, 1);
+        }
+        .hero-reveal-container.visible .hero-reveal-child {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.1.1",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.1.1/",
+    "react/": "https://aistudiocdn.com/react@^19.1.1/"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+</body>
+</html>
